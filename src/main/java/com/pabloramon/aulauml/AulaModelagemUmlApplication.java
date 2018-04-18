@@ -9,10 +9,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import com.pabloramon.aulauml.domain.Categoria;
 import com.pabloramon.aulauml.domain.Cidade;
+import com.pabloramon.aulauml.domain.Cliente;
+import com.pabloramon.aulauml.domain.Endereco;
 import com.pabloramon.aulauml.domain.Estado;
 import com.pabloramon.aulauml.domain.Produto;
+import com.pabloramon.aulauml.domain.enums.TipoCliente;
 import com.pabloramon.aulauml.repositories.CategoriaRepository;
 import com.pabloramon.aulauml.repositories.CidadeRepository;
+import com.pabloramon.aulauml.repositories.ClienteRepository;
+import com.pabloramon.aulauml.repositories.EnderecoRepository;
 import com.pabloramon.aulauml.repositories.EstadoRepository;
 import com.pabloramon.aulauml.repositories.ProdutoRepository;
 
@@ -29,6 +34,14 @@ public class AulaModelagemUmlApplication implements CommandLineRunner {
 
 	@Autowired
 	private CidadeRepository cidadeRepository;
+	
+	@Autowired
+	private ClienteRepository clienteRepository;
+	
+	@Autowired
+	private EnderecoRepository enderecoRepository;
+	
+	
 	
 	public static void main(String[] args) {
 		SpringApplication.run(AulaModelagemUmlApplication.class, args);
@@ -66,6 +79,17 @@ public class AulaModelagemUmlApplication implements CommandLineRunner {
 		estadoRepository.saveAll(Arrays.asList(est1,est2));
 		cidadeRepository.saveAll(Arrays.asList(c1, c2, c3));
 		
+		
+		Cliente cli1 = new Cliente(null, "Joaquim Dunga", "joaca@dunga.com","000212554445", TipoCliente.PESSOAFISICA );
+		cli1.getTelefones().addAll(Arrays.asList("83996554477", "8399665544"));
+		
+		Endereco e1 = new Endereco(null, "Rua Mata Grande", "121", "Apto 101", "Alagoinha", "58055444", cli1, c1);
+		Endereco e2 = new Endereco(null, "Rua Manauara Zé", "21", "Casa B", "Estelinha", "21055422", cli1, c2);
+		
+		cli1.getEnderecos().addAll(Arrays.asList(e1,e2));
+		
+		clienteRepository.saveAll(Arrays.asList(cli1));
+		enderecoRepository.saveAll(Arrays.asList(e1,e2));
 
 	}
 
